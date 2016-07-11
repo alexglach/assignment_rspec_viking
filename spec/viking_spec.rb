@@ -90,5 +90,6 @@ describe Viking do
       expect(viking.weapon).to eq(nil)
     end
   end
-end
 
+  describe
+end
