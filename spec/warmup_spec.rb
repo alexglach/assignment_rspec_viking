@@ -24,9 +24,27 @@ describe Warmup do
   end
 
   describe '#calls_some_methods' do
+
+    let(:other_string_double) {double(:reverse! => "gnirts")}
+    let(:string_double) {double(:upcase! => other_string_double, :empty? => false)}
+
     it 'the input receives the upcase! method call' do
-      string_double = double(:upcase! => "STRING")
-      expect(string_double).to_receive("upcase!")
+      expect(string_double).to receive("upcase!")
+      warmup.calls_some_methods(string_double)
+    end
+
+    it 'raises error if string empty' do
+      string_double = double(:empty? => true)
+      expect{warmup.calls_some_methods(string_double)}.to raise_error("Hey, give me a string!")
+    end
+
+    it 'receives the reverse! method call' do
+      expect(other_string_double).to receive("reverse!")
+      warmup.calls_some_methods(string_double)
+    end
+
+    it 'returns a new object than the one that was passed in' do
+      expect(warmup.calls_some_methods(string_double)).to_not eq(string_double)
     end
   end
 end
