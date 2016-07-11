@@ -9,11 +9,11 @@ describe Warmup do
       expect(warmup.gets_shout).to eq("HELLO")
     end
 
-    # # it 'outputs the upcased value to the command line' do
-    #   allow(warmup).to receive(:gets).and_return('hello')
-    #   warmup.gets_shout
-    #   expect(STDOUT).should_receive(:puts).with("HELLO")
-    # end
+    it 'outputs the upcased value to the command line' do
+      allow(warmup).to receive(:gets).and_return('hello')
+      warmup.gets_shout
+      expect{warmup.gets_shout}.to output(/HELLO/).to_stdout
+    end
   end
 
   describe '#triple_size' do
