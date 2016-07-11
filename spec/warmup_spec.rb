@@ -22,4 +22,11 @@ describe Warmup do
       expect(warmup.triple_size(array_double)).to eq(12)
     end
   end
+
+  describe '#calls_some_methods' do
+    it 'the input receives the upcase! method call' do
+      string_double = double(:upcase! => "STRING")
+      expect(string_double).to_receive("upcase!")
+    end
+  end
 end
