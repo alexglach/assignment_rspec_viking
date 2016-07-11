@@ -38,6 +38,7 @@ describe Viking do
 
   let(:viking) { Viking.new("Sven", 99) }
   let(:weapon) { Weapon.new('Mjolnir') }
+  let(:enemy_viking) { Viking.new("Oleg")}
 
   describe '#initialize' do
 
@@ -91,5 +92,59 @@ describe Viking do
     end
   end
 
-  describe
+  describe '#receive_attack' do
+
+    it "reduces Viking's health by the specified amount" do
+      viking.receive_attack(10)
+      expect(viking.health).to eq(89)
+    end 
+
+    it "has a receive_attack method which calls the take_damage method" do
+      expect(viking).to receive('take_damage').with(10)
+      viking.receive_attack(10)
+    end
+
+  end
+
+  describe '#attack' do
+
+
+    it "causes the recipient's health to drop" do
+      viking.attack(enemy_viking)
+      expect(enemy_viking.health).to eq(97.5)
+    end
+
+    it "calls the enemy viking's take_damage method" do
+      expect(enemy_viking).to receive('take_damage').with(2.5)
+      viking.attack(enemy_viking)
+    end
+
+    it "runs damage_with_fists if Viking has no weapon" do
+      expect(viking).to receive('damage_with_fists').and_return(2.5)
+      viking.attack(enemy_viking)
+    end
+
+  end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 end
