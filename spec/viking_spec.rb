@@ -39,6 +39,7 @@ describe Viking do
   let(:viking) { Viking.new("Sven", 99) }
   let(:weapon) { Weapon.new('Mjolnir') }
   let(:enemy_viking) { Viking.new("Oleg")}
+  let(:bow) { Bow.new }
 
   describe '#initialize' do
 
@@ -108,7 +109,6 @@ describe Viking do
 
   describe '#attack' do
 
-
     it "causes the recipient's health to drop" do
       viking.attack(enemy_viking)
       expect(enemy_viking.health).to eq(97.5)
@@ -124,27 +124,27 @@ describe Viking do
       viking.attack(enemy_viking)
     end
 
+    it "runs damage_with_a_weapon if viking has a weapon" do
+      viking.pick_up_weapon(weapon)
+      expect(viking).to receive('damage_with_weapon').and_return(10)
+      viking.attack(enemy_viking)
+    end
+
+    it 'uses fists if there are no arrows' do
+      10.times { bow.use }
+      expect(viking).to receive('damage_with_fists').and_return(2.5)
+      viking.attack(enemy_viking)
+    end
+
   end
 
+  describe '#check_death' do
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    it 'raises an error if viking dies' do
+      viking.receive_attack(90)
+      expect{viking.receive_attack(10)}.to raise_error("Sven has Died...")
+    end
+  end
 
 
 end
